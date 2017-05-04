@@ -1,0 +1,22 @@
+{
+  "name": "pelican",
+  "version": "1.0.0",
+  "description": "Proxy connections to backend services with options to inject custom headers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": "index.js",
+  "keywords": [
+    "pelican",
+    "zengine",
+    "proxy"
+  ],
+  "author": "Everton Yoshitani",
+  "license": "ISC",
+  "dependencies": {
+    "http-proxy": "^1.16.2",
+    "ngrok": "^2.2.8",
+    "yargs": "^8.0.1"
+  }
+}
