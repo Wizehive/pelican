@@ -12,6 +12,8 @@ var NGROK_HOST = '0.0.0.0';
 var argv = require('yargs')
     .usage('Usage: $0 [options]')
     .alias('b', 'backend-url')
+	.alias('d', 'subdomain')
+	.alias('t', 'authtoken')
     .alias('u', 'firebase-url')
     .alias('s', 'firebase-secret')
     .alias('p', 'plugin')
@@ -21,6 +23,8 @@ var argv = require('yargs')
     .describe('s', 'Firebase secret (x-firebase-secret)')
     .describe('p', 'Plugin namespace (x-plugin)')
     .describe('a', 'Zengine access token')
+	.describe('t', 'authtoken your license from ngrok for upgraded accounts')
+	.describe('d', 'custom subdomain if authtoken provided (requires a upgraded account)')
     .default('b', 'http://0.0.0.0:3000')
     .help('h')
     .alias('h', 'help')
@@ -72,7 +76,15 @@ ngrok.once('error', function(error) {
     console.log(error);
 });
 
-ngrok.connect({ addr: NGROK_HOST + ':' + NGROK_PORT});
+var options = { addr: NGROK_HOST + ':' + NGROK_PORT};
+
+if (argv.authtoken) {
+	options.authtoken = argv.authtoken;
+}
+if (argv.subdomain) {
+	options.subdomain = argv.subdomain;
+}
+ngrok.connect(options);
 
 var server = http.createServer(function(req, res) {
     proxy.web(req, res, { target: argv.backendUrl });
